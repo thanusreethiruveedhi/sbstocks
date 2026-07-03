@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,59 +18,55 @@ function Login() {
         password,
       });
 
-      console.log("Login Success:", res.data);
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      alert("Login Successful!");
-
       navigate("/dashboard");
     } catch (error) {
-      console.log("Full Error:", error);
-      console.log("Response:", error.response);
-      console.log("Response Data:", error.response?.data);
-      console.log("Message:", error.message);
-
-      alert(
-        error.response?.data?.message ||
-        error.message ||
-        "Login Failed"
-      );
+      alert(error.response?.data?.message || "Login Failed");
     }
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>SB Stocks Login</h1>
+    <div className="login-container">
+      <div className="login-card">
 
-      <form onSubmit={handleLogin}>
-        <br />
+        <h1>📈 SB Stocks</h1>
 
-        <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <p className="subtitle">
+          Paper Trading Platform
+        </p>
 
-        <br />
-        <br />
+        <form onSubmit={handleLogin}>
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+            required
+          />
 
-        <br />
-        <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            required
+          />
 
-        <button type="submit">Login</button>
-      </form>
+          <button type="submit">
+            Login
+          </button>
+
+        </form>
+
+        <p className="register-text">
+          Don't have an account?
+          <Link to="/register"> Register</Link>
+        </p>
+
+      </div>
     </div>
   );
 }
