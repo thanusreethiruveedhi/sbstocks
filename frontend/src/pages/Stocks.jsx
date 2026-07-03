@@ -20,9 +20,9 @@ function Stocks() {
   };
 
   const buyStock = async (stockId) => {
-    const quantity = prompt("Enter Quantity");
+    const quantity = prompt("Enter Quantity to Buy");
 
-    if (!quantity || quantity <= 0) return;
+    if (!quantity || Number(quantity) <= 0) return;
 
     try {
       const token = localStorage.getItem("token");
@@ -56,60 +56,129 @@ function Stocks() {
 
   return (
     <Layout>
-      <h2 className="mb-4">📈 Stock Market</h2>
 
-      <div className="mb-3">
+      <div className="card border-0 shadow-lg mb-4 bg-primary text-white">
+        <div className="card-body">
+          <h2>📈 Stock Market</h2>
+          <p className="mb-0">
+            Browse available stocks and buy using your virtual balance.
+          </p>
+        </div>
+      </div>
+
+      <div className="input-group mb-4 shadow-sm">
+        <span className="input-group-text">🔍</span>
+
         <input
           type="text"
           className="form-control"
-          placeholder="Search by Company or Symbol..."
+          placeholder="Search Company or Symbol..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
-      <div className="card shadow">
+      <div className="card border-0 shadow-lg">
+
         <div className="card-body">
 
-          <table className="table table-hover table-striped">
+          <div className="table-responsive">
 
-            <thead className="table-dark">
-              <tr>
-                <th>Company</th>
-                <th>Symbol</th>
-                <th>Sector</th>
-                <th>Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+            <table className="table table-hover align-middle">
 
-            <tbody>
-              {filteredStocks.map((stock) => (
-                <tr key={stock._id}>
-                  <td>{stock.companyName}</td>
+              <thead className="table-primary">
 
-                  <td>{stock.symbol}</td>
+                <tr>
 
-                  <td>{stock.sector}</td>
+                  <th>Company</th>
 
-                  <td>₹{stock.currentPrice}</td>
+                  <th>Symbol</th>
 
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => buyStock(stock._id)}
-                    >
-                      Buy
-                    </button>
-                  </td>
+                  <th>Sector</th>
+
+                  <th>Current Price</th>
+
+                  <th>Action</th>
+
                 </tr>
-              ))}
-            </tbody>
 
-          </table>
+              </thead>
+
+              <tbody>
+
+                {filteredStocks.length === 0 ? (
+
+                  <tr>
+
+                    <td colSpan="5" className="text-center py-4">
+
+                      No stocks found.
+
+                    </td>
+
+                  </tr>
+
+                ) : (
+
+                  filteredStocks.map((stock) => (
+
+                    <tr key={stock._id}>
+
+                      <td className="fw-bold">
+
+                        {stock.companyName}
+
+                      </td>
+
+                      <td>
+
+                        <span className="badge bg-dark">
+
+                          {stock.symbol}
+
+                        </span>
+
+                      </td>
+
+                      <td>
+
+                        {stock.sector}
+
+                      </td>
+
+                      <td className="text-success fw-bold">
+
+                        ₹{stock.currentPrice}
+
+                      </td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-success btn-sm px-4"
+                          onClick={() => buyStock(stock._id)}
+                        >
+                          Buy
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
 
         </div>
+
       </div>
+
     </Layout>
   );
 }

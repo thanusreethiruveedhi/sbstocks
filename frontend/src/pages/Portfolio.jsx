@@ -28,7 +28,7 @@ function Portfolio() {
   const sellStock = async (stockId) => {
     const quantity = prompt("Enter Quantity to Sell");
 
-    if (!quantity || quantity <= 0) return;
+    if (!quantity || Number(quantity) <= 0) return;
 
     try {
       const token = localStorage.getItem("token");
@@ -49,72 +49,180 @@ function Portfolio() {
       alert("✅ Stock Sold Successfully");
 
       fetchPortfolio();
+
     } catch (error) {
       alert(error.response?.data?.message || "Sell Failed");
     }
   };
 
+  const totalInvestment = portfolio.reduce(
+    (sum, item) => sum + item.totalInvestment,
+    0
+  );
+
+  const totalStocks = portfolio.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
   return (
     <Layout>
-      <h2 className="mb-4">💼 My Portfolio</h2>
 
-      <div className="card shadow">
+      {/* Header */}
+
+      <div className="card bg-success text-white shadow-lg border-0 mb-4">
+
+        <div className="card-body">
+
+          <h2>💼 My Portfolio</h2>
+
+          <p className="mb-0">
+            View and manage all your purchased stocks.
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* Summary */}
+
+      <div className="row mb-4">
+
+        <div className="col-md-6">
+
+          <div className="card shadow border-0">
+
+            <div className="card-body text-center">
+
+              <h5>Total Investment</h5>
+
+              <h2 className="text-primary">
+                ₹{totalInvestment.toLocaleString()}
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="col-md-6">
+
+          <div className="card shadow border-0">
+
+            <div className="card-body text-center">
+
+              <h5>Total Stocks Owned</h5>
+
+              <h2 className="text-success">
+                {totalStocks}
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* Portfolio Table */}
+
+      <div className="card shadow-lg border-0">
+
         <div className="card-body">
 
           {portfolio.length === 0 ? (
-            <h4 className="text-center">
-              No Stocks Purchased Yet
-            </h4>
+
+            <div className="text-center py-5">
+
+              <h3>📭 No Stocks Purchased Yet</h3>
+
+              <p className="text-muted">
+                Buy stocks from the Stocks page to build your portfolio.
+              </p>
+
+            </div>
+
           ) : (
-            <table className="table table-hover table-striped">
 
-              <thead className="table-dark">
-                <tr>
-                  <th>Company</th>
-                  <th>Symbol</th>
-                  <th>Quantity</th>
-                  <th>Average Price</th>
-                  <th>Total Investment</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
+            <div className="table-responsive">
 
-              <tbody>
+              <table className="table table-hover align-middle">
 
-                {portfolio.map((item) => (
-                  <tr key={item._id}>
+                <thead className="table-success">
 
-                    <td>{item.stock.companyName}</td>
+                  <tr>
 
-                    <td>{item.stock.symbol}</td>
+                    <th>Company</th>
 
-                    <td>{item.quantity}</td>
+                    <th>Symbol</th>
 
-                    <td>₹{item.averageBuyPrice}</td>
+                    <th>Quantity</th>
 
-                    <td>₹{item.totalInvestment}</td>
+                    <th>Average Price</th>
 
-                    <td>
+                    <th>Total Investment</th>
 
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => sellStock(item.stock._id)}
-                      >
-                        Sell
-                      </button>
-
-                    </td>
+                    <th>Action</th>
 
                   </tr>
-                ))}
 
-              </tbody>
+                </thead>
 
-            </table>
+                <tbody>
+
+                  {portfolio.map((item) => (
+
+                    <tr key={item._id}>
+
+                      <td className="fw-bold">
+                        {item.stock.companyName}
+                      </td>
+
+                      <td>
+                        <span className="badge bg-dark">
+                          {item.stock.symbol}
+                        </span>
+                      </td>
+
+                      <td>{item.quantity}</td>
+
+                      <td className="text-primary fw-bold">
+                        ₹{item.averageBuyPrice}
+                      </td>
+
+                      <td className="text-success fw-bold">
+                        ₹{item.totalInvestment}
+                      </td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-danger btn-sm px-4"
+                          onClick={() => sellStock(item.stock._id)}
+                        >
+                          Sell
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
           )}
 
         </div>
+
       </div>
+
     </Layout>
   );
 }
