@@ -5,6 +5,12 @@
 SB Stocks is a full-stack paper trading web application where users can practice buying and selling stocks using virtual money without financial risk.
 
 ---
+## Live Demo
+https://sbstocks-y29f.vercel.app/login
+
+## Demo Video
+https://drive.google.com/drive/folders/1xrdm41ZlZTxdx01vI9OhDBtJu8iX6GUA?usp=sharing
+---
 
 ## Features
 
@@ -75,3 +81,4 @@ sbstocks
 ## Author
 
 **Thanusree**
+
