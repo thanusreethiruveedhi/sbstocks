@@ -71,9 +71,11 @@ npm run dev
 
 ```
 sbstocks
-├── backend
-├── frontend
-└── README.md
+├── 📁 SbStocks Mern Phase Wise
+├── 📁 backend
+├── 📁 frontend
+├── 📄 README.md
+└── 📄 sb stocks demo.mp4
 ```
 
 ---
