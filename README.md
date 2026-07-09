@@ -82,5 +82,5 @@ sbstocks
 
 ## Author
 
-**Thanusree**
+** Thiruveedhi Thanusree**
 
